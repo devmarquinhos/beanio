@@ -12,12 +12,12 @@ import java.util.List;
 public interface ReviewRepository extends JpaRepository<Review, Long> {
     List<Review> findByCoffeeShop(CoffeeShop coffeeShop);
 
-    List<Review> findByCoffeeShopAndContext(CoffeeShop coffeeShop, VisitContext context);
+    List<Review> findByCoffeeShopAndVisitContext(CoffeeShop coffeeShop, VisitContext visitContext);
 
-    boolean existsByUserAndCoffeeShopAndContextAndCreatedAtBetween(
+    boolean existsByUserAndCoffeeShopAndVisitContextAndCreatedAtBetween(
             User user,
             CoffeeShop coffeeShop,
-            VisitContext context,
+            VisitContext visitContext,
             LocalDateTime start,
             LocalDateTime end
     );

@@ -20,8 +20,12 @@ public class Review {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "coffee_shop_id")
+    @JoinColumn(name = "user_id")
     private User user;
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "coffee_shop_id")
+    private CoffeeShop coffeeShop;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
