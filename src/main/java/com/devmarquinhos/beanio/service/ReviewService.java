@@ -4,7 +4,7 @@ import com.devmarquinhos.beanio.domain.enums.VisitContext;
 import com.devmarquinhos.beanio.domain.model.CoffeeShop;
 import com.devmarquinhos.beanio.domain.model.Review;
 import com.devmarquinhos.beanio.domain.model.User;
-import com.devmarquinhos.beanio.dto.ReviewResponse;
+import com.devmarquinhos.beanio.dto.review.ReviewResponse;
 import com.devmarquinhos.beanio.dto.review.CreateReviewRequest;
 import com.devmarquinhos.beanio.repository.CoffeeShopRepository;
 import com.devmarquinhos.beanio.repository.ReviewRepository;

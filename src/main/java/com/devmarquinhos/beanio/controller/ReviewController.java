@@ -2,7 +2,7 @@ package com.devmarquinhos.beanio.controller;
 
 import com.devmarquinhos.beanio.domain.enums.VisitContext;
 import com.devmarquinhos.beanio.domain.model.User;
-import com.devmarquinhos.beanio.dto.ReviewResponse;
+import com.devmarquinhos.beanio.dto.review.ReviewResponse;
 import com.devmarquinhos.beanio.dto.review.CreateReviewRequest;
 import com.devmarquinhos.beanio.service.ReviewService;
 import lombok.RequiredArgsConstructor;

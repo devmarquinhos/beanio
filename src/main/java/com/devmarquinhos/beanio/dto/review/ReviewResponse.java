@@ -1,4 +1,4 @@
-package com.devmarquinhos.beanio.dto;
+package com.devmarquinhos.beanio.dto.review;
 
 import com.devmarquinhos.beanio.domain.enums.VisitContext;
 
