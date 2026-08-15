@@ -9,6 +9,7 @@ import com.devmarquinhos.beanio.dto.user.UserResponse;
 import com.devmarquinhos.beanio.repository.UserRepository;
 import com.devmarquinhos.beanio.exception.BusinessRuleException;
 import com.devmarquinhos.beanio.exception.ResourceNotFoundException;
+import com.devmarquinhos.beanio.security.JwtService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -22,6 +23,7 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final JwtService jwtService;
 
     @Transactional
     public UserResponse register(RegisterRequest request) {
@@ -50,7 +52,7 @@ public class UserService {
             throw new BusinessRuleException("Credenciais inválidas.");
         }
 
-        String token = "jwt-token"; // TODO: implement jwt
+        String token = jwtService.generateToken(user);
 
         return new AuthResponse(token, mapToResponse(user));
     }
