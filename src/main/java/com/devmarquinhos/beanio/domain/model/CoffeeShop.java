@@ -60,6 +60,12 @@ public class CoffeeShop {
     @Column
     private String coverImageUrl;
 
+    @Column(nullable = false, columnDefinition = "Decimal(3,1) default '0.0'")
+    private Double averageScore = 0.0;
+
+    @Column(nullable = false, columnDefinition = "integer default 0")
+    private Integer totalReviews = 0;
+
     @CreationTimestamp
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;

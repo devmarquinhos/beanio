@@ -2,10 +2,7 @@ package com.devmarquinhos.beanio.service;
 
 import com.devmarquinhos.beanio.domain.enums.UserRole;
 import com.devmarquinhos.beanio.domain.model.User;
-import com.devmarquinhos.beanio.dto.user.AuthRequest;
-import com.devmarquinhos.beanio.dto.user.AuthResponse;
-import com.devmarquinhos.beanio.dto.user.RegisterRequest;
-import com.devmarquinhos.beanio.dto.user.UserResponse;
+import com.devmarquinhos.beanio.dto.user.*;
 import com.devmarquinhos.beanio.repository.UserRepository;
 import com.devmarquinhos.beanio.exception.BusinessRuleException;
 import com.devmarquinhos.beanio.exception.ResourceNotFoundException;
@@ -63,6 +60,18 @@ public class UserService {
                 .orElseThrow(() -> new ResourceNotFoundException("Usuário não encontrado."));
 
         return mapToResponse(user);
+    }
+
+    @Transactional
+    public UserResponse updateProfile(UUID userId, UpdateUserRequest request) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("Usuário não encontrado."));
+
+        user.setName(request.name());
+        user.setCity(request.city());
+
+        User updatedUser = userRepository.save(user);
+        return mapToResponse(updatedUser);
     }
 
     private UserResponse mapToResponse(User user) {
