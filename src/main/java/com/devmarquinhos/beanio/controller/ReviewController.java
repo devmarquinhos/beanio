@@ -2,6 +2,7 @@ package com.devmarquinhos.beanio.controller;
 
 import com.devmarquinhos.beanio.domain.enums.VisitContext;
 import com.devmarquinhos.beanio.domain.model.User;
+import com.devmarquinhos.beanio.dto.review.OwnerReplyRequest;
 import com.devmarquinhos.beanio.dto.review.ReviewResponse;
 import com.devmarquinhos.beanio.dto.review.CreateReviewRequest;
 import com.devmarquinhos.beanio.service.ReviewService;
@@ -29,6 +30,16 @@ public class ReviewController {
 
         ReviewResponse response = reviewService.createReview(coffeeShopId, authenticatedUser, request);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
+    }
+
+    @PostMapping("/{reviewId}/reply")
+    public ResponseEntity<Void> replyToReview(
+            @PathVariable Long reviewId,
+            @RequestBody OwnerReplyRequest request,
+            @AuthenticationPrincipal User authenticatedUser) {
+
+        reviewService.replyToReview(reviewId, request.replyText(), authenticatedUser);
+        return ResponseEntity.ok().build();
     }
 
     @GetMapping

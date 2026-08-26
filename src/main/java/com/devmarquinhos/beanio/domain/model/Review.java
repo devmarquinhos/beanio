@@ -37,6 +37,12 @@ public class Review {
     @Column(length = 1000)
     private String comment;
 
+    @Column(name = "owner_reply", columnDefinition = "TEXT")
+    private String ownerReply;
+
+    @Column(name = "replied_at")
+    private LocalDateTime repliedAt;
+
     @CreationTimestamp
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;

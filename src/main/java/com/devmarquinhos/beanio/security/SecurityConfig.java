@@ -27,6 +27,7 @@ public class SecurityConfig {
             .authorizeHttpRequests(auth -> auth
                     .requestMatchers("/auth/**").permitAll()
                     .requestMatchers(HttpMethod.GET, "/coffee-shops/**", "/coffee-shops").permitAll()
+                    .requestMatchers("/users/**").authenticated()
                     .anyRequest().authenticated()
             )
             .sessionManagement(session -> session

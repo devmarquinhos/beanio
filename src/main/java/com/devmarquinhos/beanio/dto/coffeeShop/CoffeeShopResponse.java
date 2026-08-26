@@ -7,5 +7,8 @@ public record CoffeeShopResponse(
         String name,
         String location,
         String score,
-        String image
+        String coverImageUrl,
+        String shortDescription,
+        boolean hasWifi,
+        boolean hasPowerOutlets
 ) {}

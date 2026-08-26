@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
 public interface ReviewRepository extends JpaRepository<Review, Long> {
     List<Review> findByCoffeeShop(CoffeeShop coffeeShop);
@@ -21,4 +22,6 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
             LocalDateTime start,
             LocalDateTime end
     );
+
+    List<Review> findByCoffeeShopId(UUID coffeeShopId);
 }

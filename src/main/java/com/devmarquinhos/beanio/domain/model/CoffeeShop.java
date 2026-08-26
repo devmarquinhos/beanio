@@ -8,6 +8,8 @@ import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -65,6 +67,15 @@ public class CoffeeShop {
 
     @Column(nullable = false, columnDefinition = "integer default 0")
     private Integer totalReviews = 0;
+
+    @ManyToOne
+    @JoinColumn(name = "owner_id")
+    private User owner;
+
+    @ElementCollection
+    @CollectionTable(name = "coffee_shop_highlights", joinColumns = @JoinColumn(name = "coffee_shop_id"))
+    @Column(name = "image_url", length = 500)
+    private List<String> specialtyHighlights = new ArrayList<>();
 
     @CreationTimestamp
     @Column(nullable = false, updatable = false)

@@ -11,8 +11,10 @@ import com.devmarquinhos.beanio.repository.ReviewRepository;
 import com.devmarquinhos.beanio.exception.BusinessRuleException;
 import com.devmarquinhos.beanio.exception.ResourceNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -39,6 +41,8 @@ public class ReviewService {
 
         Review review = buildReview(user, coffeeShop, request);
         Review savedReview = reviewRepository.save(review);
+
+        updateCoffeeShopMetrics(coffeeShop, request.overallRating());
 
         return mapToResponse(savedReview);
     }
@@ -156,5 +160,34 @@ public class ReviewService {
                 review.getBaristaServiceRating(),
                 review.getPriceFairnessRating()
         );
+    }
+
+    private void updateCoffeeShopMetrics(CoffeeShop coffeeShop, Integer newRating) {
+        int currentTotal = coffeeShop.getTotalReviews();
+        double currentAverage = coffeeShop.getAverageScore();
+        double newAverage = ((currentAverage * currentTotal) + newRating) / (currentTotal + 1);
+
+        newAverage = Math.round(newAverage * 10.0) / 10.0;
+
+        coffeeShop.setTotalReviews(currentTotal + 1);
+        coffeeShop.setAverageScore(newAverage);
+
+        coffeeShopRepository.save(coffeeShop);
+    }
+
+    public void replyToReview(Long reviewId, String replyText, User owner) {
+        Review review = reviewRepository.findById(reviewId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Avaliação não encontrada"));
+
+        CoffeeShop coffeeShop = review.getCoffeeShop();
+
+        if (coffeeShop.getOwner() == null || !coffeeShop.getOwner().getId().equals(owner.getId())) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Você não pode responder avaliações de outra cafeteria.");
+        }
+
+        review.setOwnerReply(replyText);
+        review.setRepliedAt(LocalDateTime.now());
+
+        reviewRepository.save(review);
     }
 }

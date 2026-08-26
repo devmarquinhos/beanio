@@ -9,6 +9,8 @@ import java.util.List;
 import java.util.Optional;
 
 public interface FavoriteRepository extends JpaRepository<Favorite, Long> {
+    List<Favorite> findAllByUserId(String userId);
+
     List<Favorite> findByUser(User user);
 
     Optional<Favorite> findByUserAndCoffeeShop(User user, CoffeeShop coffeeShop);
