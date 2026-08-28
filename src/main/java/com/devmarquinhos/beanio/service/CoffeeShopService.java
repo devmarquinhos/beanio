@@ -14,7 +14,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -26,20 +25,11 @@ public class CoffeeShopService {
         List<CoffeeShop> shops = repository.findAll();
 
         return shops.stream()
-                .map(shop -> new CoffeeShopResponse(
-                        shop.getId(),
-                        shop.getName(),
-                        shop.getDistrict() + ", " + shop.getCity(),
-                        String.format(Locale.US, "%.1f", shop.getAverageScore()),
-                        shop.getCoverImageUrl(),
-                        shop.getShortDescription(),
-                        shop.isHasPowerOutlets(),
-                        shop.isHasWifi()
-                ))
+                .map(this::mapToResponse)
                 .toList();
     }
 
-    public CoffeeShopResponse create(CoffeeShopRequest request) {
+    public CoffeeShopResponse create(CoffeeShopRequest request, User authenticatedUser) {
         CoffeeShop coffeeShop = CoffeeShop.builder()
                 .name(request.name())
                 .shortDescription(request.shortDescription())
@@ -55,20 +45,12 @@ public class CoffeeShopService {
                 .coverImageUrl(request.coverImageUrl())
                 .averageScore(0.0)
                 .totalReviews(0)
+                .owner(authenticatedUser)
                 .build();
 
         CoffeeShop savedShop = repository.save(coffeeShop);
 
-        return new CoffeeShopResponse(
-                savedShop.getId(),
-                savedShop.getName(),
-                savedShop.getDistrict() + ", " + savedShop.getCity(),
-                "0.0",
-                savedShop.getCoverImageUrl(),
-                savedShop.getShortDescription(),
-                savedShop.isHasPowerOutlets(),
-                savedShop.isHasWifi()
-        );
+        return mapToResponse(savedShop);
     }
 
     public CoffeeShopResponse getById(String id) {
@@ -109,7 +91,7 @@ public class CoffeeShopService {
 
     private CoffeeShopResponse mapToResponse(CoffeeShop coffeeShop) {
         String score = coffeeShop.getAverageScore() != null
-                ? String.valueOf(coffeeShop.getAverageScore())
+                ? String.format(Locale.US, "%.1f", coffeeShop.getAverageScore())
                 : "0.0";
 
         String location = coffeeShop.getDistrict() + ", " + coffeeShop.getCity();
@@ -122,7 +104,9 @@ public class CoffeeShopService {
                 coffeeShop.getCoverImageUrl(),
                 coffeeShop.getShortDescription(),
                 coffeeShop.isHasWifi(),
-                coffeeShop.isHasPowerOutlets()
+                coffeeShop.isHasPowerOutlets(),
+                coffeeShop.getSpecialtyHighlights(),
+                coffeeShop.getOwner() != null ? coffeeShop.getOwner().getId() : null
         );
     }
 }

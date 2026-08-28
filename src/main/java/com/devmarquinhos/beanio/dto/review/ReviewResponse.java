@@ -27,5 +27,5 @@ public record ReviewResponse(
         Integer coffeeQualityRating,
         Integer brewMethodsVarietyRating,
         Integer baristaServiceRating,
-        Integer priceFairnessRating
-) {}
+        Integer priceFairnessRating,
+        String ownerReply) {}

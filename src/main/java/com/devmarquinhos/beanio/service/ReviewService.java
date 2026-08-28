@@ -158,7 +158,8 @@ public class ReviewService {
                 review.getCoffeeQualityRating(),
                 review.getBrewMethodsVarietyRating(),
                 review.getBaristaServiceRating(),
-                review.getPriceFairnessRating()
+                review.getPriceFairnessRating(),
+                review.getOwnerReply()
         );
     }
 

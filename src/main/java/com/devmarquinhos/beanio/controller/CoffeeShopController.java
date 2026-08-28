@@ -34,8 +34,9 @@ public class CoffeeShopController {
     }
 
     @PostMapping
-    public ResponseEntity<CoffeeShopResponse> createCoffeeShop(@RequestBody CoffeeShopRequest request) {
-        CoffeeShopResponse response = coffeeShopService.create(request);
+    public ResponseEntity<CoffeeShopResponse> createCoffeeShop(@RequestBody CoffeeShopRequest request,
+                                                               @AuthenticationPrincipal User authenticatedUser) {
+        CoffeeShopResponse response = coffeeShopService.create(request, authenticatedUser);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
