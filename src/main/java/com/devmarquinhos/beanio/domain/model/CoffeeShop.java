@@ -47,7 +47,7 @@ public class CoffeeShop {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private PricingRange pricingRange;
+    private PricingRange pricingRange = PricingRange.MEDIUM;
 
     @Column(nullable = false)
     private boolean hasWifi;
@@ -57,7 +57,7 @@ public class CoffeeShop {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private NoiseLevel averageNoiseLevel;
+    private NoiseLevel averageNoiseLevel = NoiseLevel.MEDIUM;
 
     @Column
     private String coverImageUrl;

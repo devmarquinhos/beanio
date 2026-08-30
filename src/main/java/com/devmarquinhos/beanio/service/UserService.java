@@ -33,7 +33,7 @@ public class UserService {
                 .email(request.email())
                 .password(passwordEncoder.encode(request.password()))
                 .city(request.city())
-                .role(UserRole.USER)
+                .role(request.role() != null ? request.role() : UserRole.USER)
                 .build();
 
         User savedUser = userRepository.save(newUser);
