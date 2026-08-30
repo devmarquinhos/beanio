@@ -5,6 +5,7 @@ import com.devmarquinhos.beanio.domain.model.User;
 import com.devmarquinhos.beanio.dto.coffeeShop.CoffeeShopRequest;
 import com.devmarquinhos.beanio.dto.coffeeShop.CoffeeShopResponse;
 import com.devmarquinhos.beanio.dto.coffeeShop.HighlightRequest;
+import com.devmarquinhos.beanio.dto.statistics.CoffeeShopStatisticsResponse;
 import com.devmarquinhos.beanio.repository.CoffeeShopRepository;
 import com.devmarquinhos.beanio.service.CoffeeShopService;
 import lombok.RequiredArgsConstructor;
@@ -59,5 +60,14 @@ public class CoffeeShopController {
     public ResponseEntity<CoffeeShopResponse> getMyShop(@AuthenticationPrincipal User owner) {
         CoffeeShopResponse response = coffeeShopService.getMyShop(owner.getId());
         return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/{coffeeShopId}/statistics")
+    public ResponseEntity<CoffeeShopStatisticsResponse> getStatistics(
+            @PathVariable UUID coffeeShopId,
+            @AuthenticationPrincipal User authenticatedUser) {
+
+        CoffeeShopStatisticsResponse stats = coffeeShopService.getStatistics(coffeeShopId, authenticatedUser.getId());
+        return ResponseEntity.ok(stats);
     }
 }
